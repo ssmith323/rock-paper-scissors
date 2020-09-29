@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RestControllerLogger.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">api</a> &gt; <a href="index.source.html" class="el_package">com.rps.logging.spring</a> &gt; <span class="el_source">RestControllerLogger.java</span></div><h1>RestControllerLogger.java</h1><pre class="source lang-java linenums">package com.rps.logging.spring;
+
+import com.rps.logging.LoggerFactory;
+import com.rps.logging.RequestHelper;
+import com.rps.logging.LoggerConstants;
+import lombok.RequiredArgsConstructor;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.*;
+import org.slf4j.Logger;
+import org.springframework.stereotype.Component;
+
+
+@Aspect
+@Component
+@RequiredArgsConstructor
+public class RestControllerLogger {
+
+    private final LoggerFactory loggerFactory;
+    private final RequestHelper requestHelper;
+
+    @Before(&quot;@within(org.springframework.web.bind.annotation.RestController)&quot;)
+    public void logBefore(JoinPoint joinPoint) {
+<span class="nc" id="L23">        Logger logger = loggerFactory.create(joinPoint);</span>
+
+<span class="nc" id="L25">        String method = requestHelper.getMethod();</span>
+<span class="nc" id="L26">        String url = requestHelper.getUrl();</span>
+<span class="nc" id="L27">        logger.info(&quot;{} Started {}: {}&quot;, LoggerConstants.GOOD, method, url);</span>
+<span class="nc" id="L28">    }</span>
+
+    @AfterReturning(&quot;@within(org.springframework.web.bind.annotation.RestController)&quot;)
+    public void logAfter(JoinPoint joinPoint) {
+<span class="nc" id="L32">        Logger logger = loggerFactory.create(joinPoint);</span>
+
+<span class="nc" id="L34">        String method = requestHelper.getMethod();</span>
+<span class="nc" id="L35">        String url = requestHelper.getUrl();</span>
+<span class="nc" id="L36">        logger.info(&quot;{} Completed {}: {}&quot;, LoggerConstants.GOOD, method, url);</span>
+<span class="nc" id="L37">    }</span>
+
+    @AfterThrowing(&quot;@within(org.springframework.web.bind.annotation.RestController)&quot;)
+    public void logAfterThrowing(JoinPoint joinPoint) {
+<span class="nc" id="L41">        Logger logger = loggerFactory.create(joinPoint);</span>
+
+<span class="nc" id="L43">        String method = requestHelper.getMethod();</span>
+<span class="nc" id="L44">        String url = requestHelper.getUrl();</span>
+<span class="nc" id="L45">        logger.error(&quot;{} Completed {}: {}&quot;, LoggerConstants.ERROR, method, url);</span>
+<span class="nc" id="L46">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>
