@@ -15,17 +15,19 @@ import java.io.Serializable;
 @Table(name = "player_stats")
 @NoArgsConstructor
 @AllArgsConstructor
-public class PlayerStats implements Serializable {
+public class PlayerStats {
 
     @Id
-    private Integer rowId;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id")
+    private Integer id;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "player_id")
     private Player player;
-    private int gamesWon;
-    private int gamesLost;
-    private int gamesTied;
-    private int rocksThrown;
-    private int papersThrown;
-    private int scissorsThrown;
+
+    private Integer gamesWon;
+    private Integer gamesLost;
+    private Integer gamesTied;
+    private Integer rocksThrown;
+    private Integer papersThrown;
+    private Integer scissorsThrown;
 }

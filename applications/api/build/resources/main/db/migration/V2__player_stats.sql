@@ -1,5 +1,5 @@
 CREATE VIEW PLAYER_STATS as
-select player.id, player.id as player_id, IFNULL(wins,0) as games_won, IFNULL(tie, 0) as games_tied, IFNULL(loses,0) as games_lost, IFNULL(rock,0) as rocks_thrown, IFNULL(paper,0) as papers_thrown, IFNULL(scissors,0) as scissors_thrown
+select player.id, IFNULL(wins,0) gamesWon, IFNULL(tie, 0) as gamesTied, IFNULL(loses,0) gamesLost, IFNULL(rock,0) rocksThrown, IFNULL(paper,0) as papersThrown, IFNULL(scissors,0) as scissorsThrown
 from player
 		left join
 			(SELECT player.id, count(outcome) as wins
@@ -22,19 +22,19 @@ from player
 		left join
 			(SELECT player.id, count(*) as rock
 			 FROM player, game_result gr
-			 where (player.id=gr.player_1_id and player_1_throw = 'ROCK') or (player.id=gr.player_2_id and player_2_throw = 'ROCK')
+			 where (player.id=gr.player_1_id and player_1_threw = 'ROCK') or (player.id=gr.player_2_id and player_2_threw = 'ROCK')
 			 group by player.id) as r
 		on player.id=r.id
         left join
 			(SELECT player.id, count(*) as paper
 			 FROM player, game_result gr
-			 where (player.id=gr.player_1_id and player_1_throw = 'PAPER') or (player.id=gr.player_2_id and player_2_throw = 'PAPER')
+			 where (player.id=gr.player_1_id and player_1_threw = 'PAPER') or (player.id=gr.player_2_id and player_2_threw = 'PAPER')
 			 group by player.id) as p
 		on player.id=p.id
         left join
 			(SELECT player.id, count(*) as scissors
 			 FROM player, game_result gr
-			 where (player.id=gr.player_1_id and player_1_throw = 'SCISSORS') or (player.id=gr.player_2_id and player_2_throw = 'SCISSORS')
+			 where (player.id=gr.player_1_id and player_1_threw = 'SCISSORS') or (player.id=gr.player_2_id and player_2_threw = 'SCISSORS')
 			 group by player.id) as s
 		on player.id=s.id
 group by player.id

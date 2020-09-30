@@ -14,3 +14,5 @@ spring:
 server:
   port: 8081
 
+management.health.db.enabled: true
+management.endpoint.health.show-details: always

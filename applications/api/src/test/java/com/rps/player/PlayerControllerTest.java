@@ -11,6 +11,7 @@ import java.util.List;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -41,5 +42,15 @@ class PlayerControllerTest {
 
         verify(playerService).getAll();
         assertThat(actual).isEqualTo(singletonList(Player.builder().build()));
+    }
+
+    @Test
+    void create_shouldReturnAList() {
+        when(playerService.create(any(Player.class))).thenReturn(Player.builder().id(1).build());
+
+        Player actual = subject.create(Player.builder().build());
+
+        verify(playerService).create(Player.builder().build());
+        assertThat(actual).isEqualTo(singletonList(Player.builder().id(1).build()));
     }
 }

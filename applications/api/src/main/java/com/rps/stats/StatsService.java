@@ -9,8 +9,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StatsService {
 
+    private final StatsRepository statsRepository;
 
     public List<PlayerStats> getAll() {
-        return null;
+        return statsRepository.findAll();
     }
 }
