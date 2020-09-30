@@ -51,6 +51,6 @@ class PlayerControllerTest {
         Player actual = subject.create(Player.builder().build());
 
         verify(playerService).create(Player.builder().build());
-        assertThat(actual).isEqualTo(singletonList(Player.builder().id(1).build()));
+        assertThat(actual).isEqualTo(Player.builder().id(1).build());
     }
 }

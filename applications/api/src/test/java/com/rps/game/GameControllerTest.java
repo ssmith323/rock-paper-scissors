@@ -21,12 +21,22 @@ class GameControllerTest {
     private GameController subject;
 
     @Test
-    void playGame() {
+    void playGame_shouldPlayRealGame() {
         when(gameResultService.playGame(any(Game.class))).thenReturn(GameResult.builder().build());
 
-        GameResult actual = subject.playGame(Game.builder().build());
+        GameResult actual = subject.playGame(Game.builder().build(), false);
 
         verify(gameResultService).playGame(Game.builder().build());
+        assertThat(actual).isEqualTo(GameResult.builder().build());
+    }
+
+    @Test
+    void playGame_shouldBePracticeGame() {
+        when(gameResultService.practiceGame(any(Game.class))).thenReturn(GameResult.builder().build());
+
+        GameResult actual = subject.playGame(Game.builder().build(), true);
+
+        verify(gameResultService).practiceGame(Game.builder().build());
         assertThat(actual).isEqualTo(GameResult.builder().build());
     }
 }

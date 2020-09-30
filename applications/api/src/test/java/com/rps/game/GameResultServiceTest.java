@@ -36,4 +36,15 @@ class GameResultServiceTest {
         assertThat(actual).isEqualTo(GameResult.builder().id(1).build());
     }
 
+    @Test
+    void practiceGame() {
+        Game game = Game.builder().build();
+        when(gameConverter.convert(any(Game.class))).thenReturn(GameResult.builder().build());
+
+        GameResult actual = subject.practiceGame(game);
+
+        verify(gameConverter).convert(Game.builder().build());
+        assertThat(actual).isEqualTo(GameResult.builder().build());
+    }
+
 }

@@ -14,4 +14,8 @@ public class GameResultService {
         GameResult gameResult = gameConverter.convert(game);
         return gameResultRepository.save(gameResult);
     }
+
+    public GameResult practiceGame(Game game) {
+        return gameConverter.convert(game);
+    }
 }

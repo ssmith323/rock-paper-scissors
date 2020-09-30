@@ -33,4 +33,14 @@ class StatsControllerTest {
         verify(statsService).getAll();
         assertThat(actual).isEqualTo(emptyList());
     }
+
+    @Test
+    void getById() {
+        when(statsService.getById(anyInt())).thenReturn(PlayerStats.builder().build());
+
+        PlayerStats actual = subject.getById(1);
+
+        verify(statsService).getById(1);
+        assertThat(actual).isEqualTo(PlayerStats.builder().build());
+    }
 }
