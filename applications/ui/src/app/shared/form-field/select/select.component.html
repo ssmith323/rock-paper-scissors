@@ -1,0 +1,9 @@
+<mat-form-field style="width: 100%">
+  <mat-label [id]="id + 'Label'">{{ label }}</mat-label>
+  <mat-select [id]="id + 'Select'" [formControl]="control">
+    <mat-option *ngFor="let option of options" [value]="option.value">
+      {{ option.label }}
+    </mat-option>
+  </mat-select>
+  <mat-error *ngIf="control.invalid">{{ getMessage(control) }}</mat-error>
+</mat-form-field>

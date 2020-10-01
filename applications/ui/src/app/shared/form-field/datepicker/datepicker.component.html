@@ -1,0 +1,20 @@
+<mat-form-field style="width: 100%">
+  <mat-label [id]="id + 'Label'">{{ label }}</mat-label>
+  <input
+    [id]="id + 'Input'"
+    matInput
+    [matDatepicker]="picker"
+    [formControl]="control"
+    readonly
+    (click)="openCalendar(picker)"
+  />
+  <mat-datepicker-toggle
+    [id]="id + 'Toggle'"
+    matSuffix
+    [for]="picker"
+  ></mat-datepicker-toggle>
+  <mat-datepicker [id]="id + 'Picker'" #picker></mat-datepicker>
+  <mat-error *ngIf="control.invalid" [id]="id + 'Error'">{{
+    getMessage(control)
+  }}</mat-error>
+</mat-form-field>

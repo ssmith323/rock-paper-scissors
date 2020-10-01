@@ -1,117 +1,52 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Player, Throw, throwLocalization } from './game';
-import { HttpGameGateway } from './http.game.gateway';
-import { PlayGameRequest, PlayPracticeGameRequest, GameGateway } from './game.gateway';
-import { MatDialog } from '@angular/material';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
+import { BasicOption } from '../shared/form-field/select/select.component';
+import { Player, PlayerService } from '../shared/services/player.service';
 
 @Component({
   selector: 'app-game',
   templateUrl: './game.component.html',
-  styleUrls: ['./game.component.css']
+  styleUrls: ['./game.component.scss'],
 })
-export class GameComponent implements OnInit, OnDestroy {
-  
-  gameResult: string;
-  throwTypes: Throw[] = Object.keys(Throw).map(value => Throw[value]);
-  throwLocalization = throwLocalization;
-  mostRecentOutcome = '';
-  rankedGameRequest: PlayGameRequest;
-  practiceGameRequest: PlayPracticeGameRequest;
-  playerList: Player[] = [];
-
-  _destroy: Subject<void> = new Subject<void>();
-
-  isPracticeGame = false;
-
+export class GameComponent implements OnInit {
   gameForm: FormGroup;
+  practiceMode: FormControl;
+  playerList$: Observable<BasicOption<Player>[]>;
+  throwTypes: BasicOption<string>[];
 
-  constructor(private gameGateway: GameGateway, private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private playerService: PlayerService) {}
 
-  }
-
-  ngOnDestroy(): void {
-    this._destroy.next();
-    this._destroy.complete();
-  }
-
-  ngOnInit() {
-    this.playerList = [];
-    this.createForm();
-    this.getPlayers();
-
-    // this.gameForm.get('player1Throw').pipe(takeUntill(this._destroy)).valueChanges.subscribe(x =>{
-    //   console.log(x);
-    // this.gameForm.get('pgagdsg').validator;
-    // this.gameForm.updateValueAndValidity()
-    // })
-    this.updateValidator();
-
-  }
-
-  createForm() {
+  ngOnInit(): void {
     this.gameForm = this.fb.group({
-      selectedPlayer1:[null],
-      selectedPlayer2: [null],
-      player1Throw: [null, [Validators.required]],
-      player2Throw: [null, [Validators.required]]
-    })
-  }
-
-  getValue( name ){
-    return this.gameForm.get( name ).value;
-  }
-
-  processRankedGame() {
-    this.mostRecentOutcome = '';
-    this.rankedGameRequest = new PlayGameRequest(this.getValue('selectedPlayer1'), this.getValue('selectedPlayer2'), this.getValue('player1Throw'), this.getValue('player2Throw'));
-
-    this.gameGateway.playGame(this.rankedGameRequest).pipe(takeUntil(this._destroy)).subscribe(gameResult => {
-      this.mostRecentOutcome = gameResult.outcome;
+      player1: ['', Validators.required],
+      player2: ['', Validators.required],
+      player1Throw: ['', Validators.required],
+      player2Throw: ['', Validators.required],
     });
+    this.practiceMode = this.fb.control(true);
+    this.playerList$ = this.playerService
+      .getAll()
+      .pipe(map((x) => x.map((p) => ({ value: p, label: p.name }))));
+    this.throwTypes = [
+      {
+        label: 'Rock',
+        value: 'ROCK',
+      },
+      {
+        label: 'Paper',
+        value: 'PAPER',
+      },
+      {
+        label: 'Scissors',
+        value: 'SCISSORS',
+      },
+    ];
   }
 
-  processPracticeGame() {
-    this.mostRecentOutcome = '';
-
-    this.practiceGameRequest = new PlayPracticeGameRequest(this.getValue('player1Throw'), this.getValue('player2Throw'));
-
-    this.gameGateway.playPracticeGame(this.practiceGameRequest).subscribe(gameResult => {
-      this.mostRecentOutcome = gameResult.outcome;
-    });
-  }
-
-  flipToggle() {
-    this.isPracticeGame = !this.isPracticeGame;
-    this.updateValidator();
-  }
-
-  updateValidator() {
-    if (this.isPracticeGame == false) {
-      // console.log("Real");
-      this.gameForm.get('selectedPlayer1').setValidators([Validators.required]);
-      this.gameForm.get('selectedPlayer2').setValidators([Validators.required]);
-    }
-    else {
-      // console.log("Practice");
-      this.gameForm.get('selectedPlayer1').clearValidators();
-      this.gameForm.get('selectedPlayer1').updateValueAndValidity();
-      this.gameForm.get('selectedPlayer2').clearValidators();
-      this.gameForm.get('selectedPlayer2').updateValueAndValidity();
-    }
-    // this.gameForm.updateValueAndValidity();
-  }
-
-  getPlayers() {
-    this.gameGateway.getPlayers().subscribe(returnedPlayers => {
-      for(let i = 0; i < returnedPlayers.length; i++) {
-        this.playerList.push(returnedPlayers[i]);
-      }
-      this.playerList = this.playerList.sort((a,b) => a.name.localeCompare(b.name));
-      console.log('got players', this.playerList);
-    })
+  play(event) {
+    console.log(event);
   }
 }

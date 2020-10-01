@@ -1,48 +1,23 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
-import { AppComponent } from './app.component';
-import { GameGateway } from './game/game.gateway';
-import { HttpGameGateway } from './game/http.game.gateway';
-// ng import { RankedGameComponent } from './game/ranked-game/ranked-game.component';
-import { GameComponent } from './game/game.component';
-import { SidebarComponent } from './sidebar/sidebar.component';
-import { MaterialModule } from '../material.module';
+import { MatButtonModule } from '@angular/material/button';
+import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AppRoutingModule } from './app.routing.module';
-import { LeaderboardComponent } from './leaderboard/leaderboard.component';
-import { CommonModule } from '@angular/common';
-import { HeaderComponent } from './header/header.component';
+
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { CoreModule } from './core/core.module';
+import { FormFieldModule } from './shared/form-field/form-field.module';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    // RankedGameComponent,
-    GameComponent,
-    LeaderboardComponent,
-    SidebarComponent,
-    HeaderComponent
-  ],
+  declarations: [AppComponent, AppRoutingModule.components],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    FormsModule,
-    MaterialModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    CommonModule,
-    AppRoutingModule // must be last to facilitate subrouting
+    CoreModule,
+    FormFieldModule,
+    MatButtonModule,
+    AppRoutingModule,
   ],
-  exports: [
-    BrowserModule,
-    CommonModule
-  ],
-  providers: [
-    HttpGameGateway,
-    {provide: GameGateway, useClass: HttpGameGateway}
-  ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
