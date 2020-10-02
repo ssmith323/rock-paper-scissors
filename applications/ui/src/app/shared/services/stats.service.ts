@@ -20,8 +20,8 @@ export class StatsService {
 export interface PlayerStats {
   player: Player;
   gamesWon: number;
-  gameLost: number;
-  gameTied: number;
+  gamesLost: number;
+  gamesTied: number;
   rocksThrown: number;
   papersThrown: number;
   scissorsThrown: number;

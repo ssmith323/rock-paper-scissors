@@ -7,6 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { FormFieldModule } from './shared/form-field/form-field.module';
+import { TableModule } from './shared/table/table.module';
 
 @NgModule({
   declarations: [AppComponent, AppRoutingModule.components],
@@ -16,6 +17,7 @@ import { FormFieldModule } from './shared/form-field/form-field.module';
     CoreModule,
     FormFieldModule,
     MatButtonModule,
+    TableModule,
     AppRoutingModule,
   ],
   bootstrap: [AppComponent],

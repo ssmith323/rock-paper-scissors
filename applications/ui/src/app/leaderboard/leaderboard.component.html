@@ -1,68 +1,18 @@
 <div class="leaderboard-container">
-  <p>
+  <h1>
     LEADER BOARD
-  </p>
-
-  <table class="tg">
-    <tr>
-      <th class="tg-w3z3">Player</th>
-      <th class="tg-w3z3">Winning Percentage</th>
-      <th class="tg-w3z3">Number of Games</th>
-      <th class="tg-w3z3">Wins</th>
-      <th class="tg-w3z3">Losses</th>
-      <th class="tg-w3z3">Ties</th>
-      <th class="tg-w3z3">Rocks Thrown (%)</th>
-      <th class="tg-w3z3">Papers Thrown (%)</th>
-      <th class="tg-w3z3">Scissors Thrown (%)</th>
-    </tr>
-    <ng-container>
-      <tr *ngFor="let playerStat of playerStats$ | async">
-        <td>
-          <!-- <button (click)="showPlayer(playerStat.player.id)"> -->
-          {{ playerStat.player.name }}
-          <!-- </button> -->
-        </td>
-        <td class="ps-winpercent-{{ playerStat.player.id }}">
-          {{
-            playerStat.gamesWon /
-              (playerStat.gamesWon +
-                playerStat.gamesLost +
-                playerStat.gamesTied)
-          }}
-        </td>
-        <td>
-          {{
-            playerStat.gamesWon + playerStat.gamesLost + playerStat.gamesTied
-          }}
-        </td>
-        <td>{{ playerStat.gamesWon }}</td>
-        <td>{{ playerStat.gamesLost }}</td>
-        <td>{{ playerStat.gamesTied }}</td>
-        <td>{{ playerStat.rockPercent }}</td>
-        <td>{{ playerStat.paperPercent }}</td>
-        <td>{{ playerStat.scissorsPercent }}</td>
-      </tr>
-    </ng-container>
-  </table>
-  <button class="refresh" (click)="getPlayerStats()">Refresh</button>
-
-  <!-- <ng-container *ngIf="selectedPlayer != -1">
-    <table class="tg">
-      <tr>
-        <th class="tg-w3z3">Opponent</th>
-        <th class="tg-w3z3">Result</th>
-        <th class="tg-w3z3">Player Throw</th>
-        <th class="tg-w3z3">Opponent Throw</th>
-      </tr>
-      <ng-container>
-        <tr *ngFor="let gameRecord of gameRecords">
-          <td>{{ gameRecord.opponent.name }}</td>
-          <td>{{ gameRecord.result }}</td>
-          <td>{{ gameRecord.playerThrow }}</td>
-          <td>{{ gameRecord.opponentThrow }}</td>
-        </tr>
-      </ng-container>
-    </table>
-    <button (click)="showPlayer(-1)">Back</button>
-  </ng-container> -->
+  </h1>
+  <app-table
+    [data]="playerStats$ | async"
+    [columns]="columns"
+    navField="id"
+  ></app-table>
+  <button
+    mat-flat-button
+    color="accent"
+    class="refresh"
+    (click)="getPlayerStats()"
+  >
+    Refresh
+  </button>
 </div>

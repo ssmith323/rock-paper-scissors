@@ -1,0 +1,24 @@
+<mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+  <ng-container *ngFor="let column of columns" [matColumnDef]="column.def">
+    <mat-header-cell
+      [id]="column.def + 'Header'"
+      *matHeaderCellDef
+      mat-sort-header
+    >
+      {{ column.header }}
+    </mat-header-cell>
+    <mat-cell
+      [id]="column.def + removePeriods(element[navField])"
+      *matCellDef="let element"
+    >
+      {{ column.cell(element) }}
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row
+    [id]="'tableRow' + removePeriods(row[navField])"
+    *matRowDef="let row; columns: displayedColumns"
+    [routerLink]="row[navField]"
+  ></mat-row>
+</mat-table>
