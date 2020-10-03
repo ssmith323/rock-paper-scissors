@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { BasicOption } from '../shared/form-field/select/select.component';
+import { GameService } from '../shared/services/game.service';
 import { Player, PlayerService } from '../shared/services/player.service';
 
 @Component({
@@ -17,7 +18,11 @@ export class GameComponent implements OnInit {
   playerList$: Observable<BasicOption<Player>[]>;
   throwTypes: BasicOption<string>[];
 
-  constructor(private fb: FormBuilder, private playerService: PlayerService) {}
+  constructor(
+    private fb: FormBuilder,
+    private playerService: PlayerService,
+    private gameService: GameService,
+  ) {}
 
   ngOnInit(): void {
     this.gameForm = this.fb.group({
@@ -46,7 +51,7 @@ export class GameComponent implements OnInit {
     ];
   }
 
-  play(event) {
-    console.log(event);
+  play(): void {
+    this.gameService.playPractice(this.gameForm.value);
   }
 }

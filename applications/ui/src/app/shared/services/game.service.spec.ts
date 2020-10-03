@@ -25,12 +25,25 @@ describe('GameService', () => {
   });
 
   describe('playRank', () => {
-    it('should get all', () => {
+    it('should create a rank game', () => {
       const game = {} as Game;
       service.playRank(game).then((response) => {
         expect(response).toEqual({} as Game);
       });
       const req = httpTestingController.expectOne(url);
+      expect(req.request.method).toBe('POST');
+      req.flush({});
+      httpTestingController.verify();
+    });
+  });
+
+  describe('playPractice', () => {
+    it('should create a practice game', () => {
+      const game = {} as Game;
+      service.playPractice(game).then((response) => {
+        expect(response).toEqual({} as Game);
+      });
+      const req = httpTestingController.expectOne(`${url}?practice=true`);
       expect(req.request.method).toBe('POST');
       req.flush({});
       httpTestingController.verify();

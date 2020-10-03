@@ -3,10 +3,9 @@
     <app-slider label="Practice Mode" [control]="practiceMode"></app-slider>
   </div>
 
-  <form [formGroup]="gameForm" (ngSubmit)="play($event)">
-    <!-- responsive row has 12 columns by default -->
+  <form [formGroup]="gameForm" (ngSubmit)="play()">
     <div class="player-container">
-      <ng-container *ngIf="practiceMode.value">
+      <ng-container *ngIf="!practiceMode.value">
         <app-select
           [control]="gameForm.get('player1')"
           label="Player 1 Name"
@@ -24,7 +23,7 @@
     </div>
 
     <div class="player-container">
-      <ng-container *ngIf="practiceMode.value">
+      <ng-container *ngIf="!practiceMode.value">
         <div class="name">
           <app-select
             [control]="gameForm.get('player2')"

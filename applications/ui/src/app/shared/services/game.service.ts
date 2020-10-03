@@ -12,8 +12,12 @@ export class GameService {
 
   constructor(private http: HttpClient) {}
 
-  playRank(game: Game) {
+  playRank(game: Game): Promise<Game> {
     return this.http.post<Game>(this.url, game).toPromise();
+  }
+
+  playPractice(game: Game): Promise<Game> {
+    return this.http.post<Game>(`${this.url}?practice=true`, game).toPromise();
   }
 }
 

@@ -39,10 +39,13 @@ describe('LeaderboardComponent', () => {
     expect(fixture.debugElement.query(By.css('app-table'))).toBeTruthy();
   });
 
-  it('should refresh the data', async () => {
-    fixture.debugElement
-      .query(By.css('button.refresh'))
-      .triggerEventHandler('click', null);
-    expect(statsService.getAll).toHaveBeenCalledTimes(2);
+  describe('refresh', () => {
+    it('should refresh the data', async () => {
+      spyOn(component, 'getPlayerStats');
+      fixture.debugElement
+        .query(By.css('button.refresh'))
+        .triggerEventHandler('click', null);
+      expect(component.getPlayerStats).toHaveBeenCalledTimes(1);
+    });
   });
 });
