@@ -32,7 +32,7 @@ class SelectComponent extends AbstractFormFieldComponent {
 
 @Component({
   selector: 'app-submit',
-  template: '<div>Submit</div>',
+  template: '<button type="submit">Submit</button>',
 })
 class SubmitComponent {
   @Input() form: FormGroup;

@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 
 import { FormFieldTestingModule } from '../shared/form-field/testing/form-field-testing.module';
@@ -17,10 +18,10 @@ describe('GameStartComponent', () => {
     'getThrows',
     'play',
   ]);
-  gameStartService.getForm.and.returnValue(new FormGroup({}));
-  gameStartService.createPracticeModeControl.and.returnValue(
-    new FormControl(true),
-  );
+  const form = new FormGroup({});
+  const practiceMode = new FormControl(true);
+  gameStartService.getForm.and.returnValue(form);
+  gameStartService.createPracticeModeControl.and.returnValue(practiceMode);
   gameStartService.getPlayers.and.returnValue(of([]));
   gameStartService.getThrows.and.returnValue([]);
   gameStartService.play.and.returnValue({} as Game);
@@ -41,9 +42,29 @@ describe('GameStartComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-    expect(gameStartService.getForm).toHaveBeenCalled();
-    expect(gameStartService.createPracticeModeControl).toHaveBeenCalled();
-    expect(gameStartService.getPlayers).toHaveBeenCalled();
     expect(gameStartService.getThrows).toHaveBeenCalled();
+  });
+
+  it('should set players', () => {
+    expect(gameStartService.getPlayers).toHaveBeenCalled();
+    component.playerList$.subscribe((x) => expect(x).toEqual([]));
+  });
+
+  it('should get the form', () => {
+    expect(gameStartService.getForm).toHaveBeenCalled();
+    expect(component.gameForm).toEqual(form);
+  });
+
+  it('should create the toggle', () => {
+    expect(gameStartService.createPracticeModeControl).toHaveBeenCalled();
+    expect(component.practiceMode).toEqual(practiceMode);
+  });
+
+  it('should submit when button is clicked', () => {
+    fixture.debugElement
+      .query(By.css('button[type=submit]'))
+      .nativeElement.click();
+
+    expect(gameStartService.play).toHaveBeenCalled();
   });
 });
