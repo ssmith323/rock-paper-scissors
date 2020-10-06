@@ -1,41 +1,43 @@
-import { Component, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { BasicOption } from '../shared/form-field/select/select.component';
-import { GameService } from '../shared/services/game.service';
+import { Game, GameService } from '../shared/services/game.service';
 import { Player, PlayerService } from '../shared/services/player.service';
 
-@Component({
-  selector: 'app-game',
-  templateUrl: './game.component.html',
-  styleUrls: ['./game.component.scss'],
+@Injectable({
+  providedIn: 'root',
 })
-export class GameComponent implements OnInit {
-  gameForm: FormGroup;
-  practiceMode: FormControl;
-  playerList$: Observable<BasicOption<Player>[]>;
-  throwTypes: BasicOption<string>[];
-
+export class GameStartService {
   constructor(
     private fb: FormBuilder,
     private playerService: PlayerService,
     private gameService: GameService,
   ) {}
 
-  ngOnInit(): void {
-    this.gameForm = this.fb.group({
+  getForm(): FormGroup {
+    return this.fb.group({
       player1: ['', Validators.required],
       player2: ['', Validators.required],
       player1Throw: ['', Validators.required],
       player2Throw: ['', Validators.required],
     });
-    this.practiceMode = this.fb.control(true);
-    this.playerList$ = this.playerService
+  }
+
+  createPracticeModeControl(): FormControl {
+    return this.fb.control(true);
+  }
+
+  getPlayers(): Observable<BasicOption<Player>[]> {
+    return this.playerService
       .getAll()
       .pipe(map((x) => x.map((p) => ({ value: p, label: p.name }))));
-    this.throwTypes = [
+  }
+
+  getThrows(): BasicOption<string>[] {
+    return [
       {
         label: 'Rock',
         value: 'ROCK',
@@ -51,7 +53,11 @@ export class GameComponent implements OnInit {
     ];
   }
 
-  play(): void {
-    this.gameService.playPractice(this.gameForm.value);
+  play(game: Game, isPractice: boolean): Observable<Game> {
+    if (isPractice) {
+      return this.gameService.playPractice(game);
+    } else {
+      return this.gameService.playRank(game);
+    }
   }
 }

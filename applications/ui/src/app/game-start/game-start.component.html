@@ -5,13 +5,11 @@
 
   <form [formGroup]="gameForm" (ngSubmit)="play()">
     <div class="player-container">
-      <ng-container *ngIf="!practiceMode.value">
-        <app-select
-          [control]="gameForm.get('player1')"
-          label="Player 1 Name"
-          [options]="playerList$ | async"
-        ></app-select>
-      </ng-container>
+      <app-select
+        [control]="gameForm.get('player1')"
+        label="Player 1 Name"
+        [options]="playerList$ | async"
+      ></app-select>
 
       <div class="throw">
         <app-select
@@ -23,19 +21,15 @@
     </div>
 
     <div class="player-container">
-      <ng-container *ngIf="!practiceMode.value">
-        <div class="name">
-          <app-select
-            [control]="gameForm.get('player2')"
-            label="Player 2 Name"
-            [options]="playerList$ | async"
-          ></app-select>
-        </div>
-      </ng-container>
+      <app-select
+        [control]="gameForm.get('player2')"
+        label="Player 2 Name"
+        [options]="playerList$ | async"
+      ></app-select>
 
       <div class="throw">
         <app-select
-          [control]="gameForm.get('player1Throw')"
+          [control]="gameForm.get('player2Throw')"
           label="Throw"
           [options]="throwTypes"
         ></app-select>
@@ -44,6 +38,6 @@
     <app-submit [form]="gameForm"></app-submit>
   </form>
   <div class="row">
-    <p id="game-outcome"></p>
+    <pre id="game-outcome">{{ (gameResult$ | async)?.outcome }}</pre>
   </div>
 </div>

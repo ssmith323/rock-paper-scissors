@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 import { Player } from './player.service';
@@ -12,12 +13,12 @@ export class GameService {
 
   constructor(private http: HttpClient) {}
 
-  playRank(game: Game): Promise<Game> {
-    return this.http.post<Game>(this.url, game).toPromise();
+  playRank(game: Game): Observable<Game> {
+    return this.http.post<Game>(this.url, game);
   }
 
-  playPractice(game: Game): Promise<Game> {
-    return this.http.post<Game>(`${this.url}?practice=true`, game).toPromise();
+  playPractice(game: Game): Observable<Game> {
+    return this.http.post<Game>(`${this.url}?practice=true`, game);
   }
 }
 

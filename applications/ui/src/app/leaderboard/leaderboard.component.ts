@@ -9,7 +9,6 @@ import { LeaderboardService } from './leaderboard.service';
   selector: 'app-leaderboard',
   templateUrl: './leaderboard.component.html',
   styleUrls: ['./leaderboard.component.scss'],
-  providers: [LeaderboardService],
 })
 export class LeaderboardComponent implements OnInit {
   playerStats$: Observable<PlayerStats[]>;

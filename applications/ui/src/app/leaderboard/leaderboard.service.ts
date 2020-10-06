@@ -3,7 +3,9 @@ import { Injectable } from '@angular/core';
 import { PlayerStats } from '../shared/services/stats.service';
 import { ColumnDefinition } from '../shared/table/table.component';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class LeaderboardService {
   getColumns(): ColumnDefinition<PlayerStats>[] {
     return [

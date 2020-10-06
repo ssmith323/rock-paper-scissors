@@ -1,0 +1,14 @@
+.container {
+  width: 50%;
+  margin: auto;
+  padding-top: 100px;
+}
+
+.player-container {
+  display: flex;
+}
+
+.name {
+  flex: 0 0 50%;
+  padding: 8px 24px 8px 24px;
+}

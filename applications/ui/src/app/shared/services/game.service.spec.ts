@@ -27,7 +27,7 @@ describe('GameService', () => {
   describe('playRank', () => {
     it('should create a rank game', () => {
       const game = {} as Game;
-      service.playRank(game).then((response) => {
+      service.playRank(game).subscribe((response) => {
         expect(response).toEqual({} as Game);
       });
       const req = httpTestingController.expectOne(url);
@@ -40,7 +40,7 @@ describe('GameService', () => {
   describe('playPractice', () => {
     it('should create a practice game', () => {
       const game = {} as Game;
-      service.playPractice(game).then((response) => {
+      service.playPractice(game).subscribe((response) => {
         expect(response).toEqual({} as Game);
       });
       const req = httpTestingController.expectOne(`${url}?practice=true`);
