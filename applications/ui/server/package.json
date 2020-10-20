@@ -1,0 +1,27 @@
+{
+  "name": "proxy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "prepublish": "rm -rf dist",
+    "publish": "webpack",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prod": "cd dist && node bundle.js"
+  },
+  "author": "Stephen J Smith",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-http-proxy": "^1.6.2",
+    "morgan": "^1.10.0",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "copy-webpack-plugin": "^6.2.1",
+    "webpack": "^4.44.2",
+    "webpack-cli": "^3.3.12",
+    "webpack-node-externals": "^2.5.2"
+  }
+}
