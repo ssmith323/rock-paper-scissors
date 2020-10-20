@@ -9,7 +9,8 @@
     "test": "ng test",
     "test:ci": "ng test --codeCoverage=true --watch=false",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "build:deployable": "npm run build:ci && rm -rf server/src/public && cp -r dist/rps/ server/src/public/"
   },
   "private": true,
   "dependencies": {
