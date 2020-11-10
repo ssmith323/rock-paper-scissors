@@ -1,3 +1,0 @@
-apply from: '../server.gradle'
-
-apply from: 'gradlefiles/dependencies.gradle'

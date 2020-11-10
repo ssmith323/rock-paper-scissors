@@ -18,4 +18,3 @@ include 'services:webservice'
 rootProject.name = 'rps-training'
 
 include 'applications:api'
-include 'applications:proxy'
